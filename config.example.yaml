@@ -1,0 +1,27 @@
+# Backend for pyvisa ResourceManager ("@py" uses pyvisa-py)
+resource_manager: "@py"
+timeout_ms: 5000
+write_termination: "\n"
+read_termination: "\n"
+
+ics:
+  host: 172.16.8.107
+  gpib_board: 0
+  gpib_address: 26
+
+multiplexer:
+  cards:
+    # Karte 1: 4-Kanal-Relais zur Umschaltung der Ausgangsspannung
+    - name: voltage_output
+      slot: 1
+      channels: [1, 2, 3, 4]
+    # Karte 2: 8-Kanal-Relais für 10 kOhm NTC-Temperatursensoren
+    - name: thermistors
+      slot: 2
+      channels: [1, 2, 3, 4, 5, 6, 7, 8]
+
+# Resource string für das Fluke 8588 (Beispiel, ggf. LAN/VXI-11/HiSLIP anpassen)
+dmm:
+  resource: "TCPIP::172.16.8.106::inst0::INSTR"
+  read_function: "MEAS:VOLT:DC?"
+  digits: 9
